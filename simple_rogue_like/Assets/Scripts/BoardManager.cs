@@ -147,7 +147,7 @@ public class BoardManager : MonoBehaviour
         LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
 
         //Instantiate tileChoice at the position returned by RandomPosition with no change in rotation
-        Instantiate(player, new Vector3(0, 0, 0f), Quaternion.identity);
+        //Instantiate(player, new Vector3(0, 0, 0f), Quaternion.identity);
 
         //Instantiate the exit tile in the upper right hand corner of our game board
         Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
