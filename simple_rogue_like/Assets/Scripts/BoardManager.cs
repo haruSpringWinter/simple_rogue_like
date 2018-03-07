@@ -22,7 +22,7 @@ public class BoardManager : MonoBehaviour
         }
     }
 
-
+    public Player player;
     public int columns = 8;                                         //Number of columns in our game board.
     public int rows = 8;                                            //Number of rows in our game board.
     public Count wallCount = new Count(5, 9);                      //Lower and upper limit for our random number of walls per level.
@@ -145,6 +145,9 @@ public class BoardManager : MonoBehaviour
 
         //Instantiate a random number of enemies based on minimum and maximum, at randomized positions.
         LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
+
+        //Instantiate tileChoice at the position returned by RandomPosition with no change in rotation
+        Instantiate(player, new Vector3(0, 0, 0f), Quaternion.identity);
 
         //Instantiate the exit tile in the upper right hand corner of our game board
         Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);

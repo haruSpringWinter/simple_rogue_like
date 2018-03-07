@@ -5,10 +5,16 @@ using System.Collections.Generic;       //Allows us to use Lists.
 
 public class GameManager : MonoBehaviour
 {
-
+    public float turnDelay = .1f;
     public static GameManager instance = null;              //Static instance of GameManager which allows it to be accessed by any other script.
     private BoardManager boardScript;                       //Store a reference to our BoardManager which will set up the level.
+
+    public int playerFoodPoints = 100;
+    [HideInInspector] public bool playersTurn = true;
+
     private int level = 3;                                  //Current level number, expressed in game as "Day 1".
+    private List<Enemy> enemies;
+    private bool enemiesMoving;
 
     //Awake is always called before any Start functions
     void Awake()
@@ -38,16 +44,53 @@ public class GameManager : MonoBehaviour
     //Initializes the game for each level.
     void InitGame()
     {
+
         //Call the SetupScene function of the BoardManager script, pass it current level number.
         boardScript.SetupScene(level);
 
     }
+
+    public void GameOver()
+    {
+        enabled = false;
+    }
+
 
 
 
     //Update is called every frame.
     void Update()
     {
+        if (playersTurn || enemiesMoving)
+            return;
 
+        StartCoroutine(MoveEnemies());
+    }
+
+    public void AddEnemyToList(Enemy script)
+    {
+        enemies.Add(script);
+    }
+
+    IEnumerator MoveEnemies()
+    {
+        enemiesMoving = true;
+
+        yield return new WaitForSeconds(turnDelay);
+
+        if(enemies.Count == 0)
+        {
+            yield return new WaitForSeconds(turnDelay);
+        }
+
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            enemies[i].MoveEnemy();
+
+            yield return new WaitForSeconds(turnDelay);
+        }
+
+        playersTurn = true;
+        enemiesMoving = false;
     }
 }
